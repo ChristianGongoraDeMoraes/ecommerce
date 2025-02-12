@@ -1,0 +1,20 @@
+Users(/Api/User)
+	Get
+	Get param: email
+	Post {name email password}
+	Put param: id {name email password}
+	Delete param: id
+
+Product(/Api/Product)
+	Get
+	Post {name price}
+	Put param:id {name price}
+	Delete param: id
+
+Order(/Api/Order)
+	Get
+	Get param: id
+	Post {userId, productId}
+	Delete param: id
+
+
