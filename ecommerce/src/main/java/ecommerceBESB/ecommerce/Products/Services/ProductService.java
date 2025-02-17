@@ -1,9 +1,11 @@
 package ecommerceBESB.ecommerce.Products.Services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import ecommerceBESB.ecommerce.Errors.Exceptions.ProductNotFoundException;
 import ecommerceBESB.ecommerce.Products.Product;
@@ -36,6 +38,7 @@ public class ProductService {
             .build();
         return productRepository.save(product);
     }
+
 
     public Product updateProduct(UUID id, ProductUpdateRequest prodReq) throws ProductNotFoundException{
         Product product = productRepository.findProductById(id).orElseThrow(() -> new ProductNotFoundException("Product Not found!"));

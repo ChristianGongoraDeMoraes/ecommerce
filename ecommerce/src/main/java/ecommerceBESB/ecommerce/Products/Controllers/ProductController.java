@@ -5,7 +5,7 @@ import java.util.UUID;
 
 
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import ecommerceBESB.ecommerce.Errors.Exceptions.ProductNotFoundException;
 import ecommerceBESB.ecommerce.Products.Product;
@@ -24,6 +25,7 @@ import ecommerceBESB.ecommerce.Products.Services.ProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 
 @RestController
@@ -48,10 +50,9 @@ public class ProductController {
     
 
     @PostMapping
-    public ResponseEntity<Product> saveUser(@Valid @RequestBody ProductSaveRequest prodReq){
+    public ResponseEntity<Product> saveProduct(@Valid @RequestBody ProductSaveRequest prodReq){
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(prodReq));
     }
-
 
 
     @PutMapping("/{id}")

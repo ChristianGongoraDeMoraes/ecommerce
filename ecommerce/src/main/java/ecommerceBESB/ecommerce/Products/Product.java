@@ -1,6 +1,7 @@
 package ecommerceBESB.ecommerce.Products;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,6 +40,7 @@ public class Product implements Serializable{
 
     @Column(unique = false, nullable = false)
     private Integer price;
+
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
