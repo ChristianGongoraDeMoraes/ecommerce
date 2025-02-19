@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ecommerceBESB.ecommerce.Errors.Exceptions.UserNotFoundException;
 import ecommerceBESB.ecommerce.User.User;
 import ecommerceBESB.ecommerce.User.Repositories.UserRepository;
+import ecommerceBESB.ecommerce.User.Requests.UserLogin;
 import ecommerceBESB.ecommerce.User.Requests.UserSaveRequest;
 import ecommerceBESB.ecommerce.User.Requests.UserUpdateRequest;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,17 @@ public class UserService {
 
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
+    }
+
+    public Boolean getLoginUser(UserLogin userReq){
+        User user = userRepository.findUserByEmail(userReq.email()).orElseThrow(() -> new UserNotFoundException("User Not found!"));
+
+        if(user.getPassword().equals(userReq.password())){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     public List<User> getAllUsers(){

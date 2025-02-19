@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.UUID;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ecommerceBESB.ecommerce.Errors.Exceptions.UserNotFoundException;
 import ecommerceBESB.ecommerce.User.User;
+import ecommerceBESB.ecommerce.User.Requests.UserLogin;
 import ecommerceBESB.ecommerce.User.Requests.UserSaveRequest;
 import ecommerceBESB.ecommerce.User.Requests.UserUpdateRequest;
 import ecommerceBESB.ecommerce.User.Services.UserService;
@@ -35,6 +37,16 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> getLogin(@Valid @RequestBody UserLogin userReq){
+        if(userService.getLoginUser(userReq)){
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(false);
+        
+    }
+
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
