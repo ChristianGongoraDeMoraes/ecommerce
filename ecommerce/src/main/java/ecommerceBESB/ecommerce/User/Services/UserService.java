@@ -10,6 +10,7 @@ import ecommerceBESB.ecommerce.Errors.Exceptions.UserNotFoundException;
 import ecommerceBESB.ecommerce.User.User;
 import ecommerceBESB.ecommerce.User.Repositories.UserRepository;
 import ecommerceBESB.ecommerce.User.Requests.UserLogin;
+import ecommerceBESB.ecommerce.User.Requests.UserRegister;
 import ecommerceBESB.ecommerce.User.Requests.UserSaveRequest;
 import ecommerceBESB.ecommerce.User.Requests.UserUpdateRequest;
 import jakarta.transaction.Transactional;
@@ -31,8 +32,19 @@ public class UserService {
         }else{
             return false;
         }
-
     }
+
+    public String getRegisterUser(UserRegister userReq){
+        User user = User.builder()
+                    .name(userReq.name())
+                    .email(userReq.email())
+                    .password(userReq.password())
+                    .build();
+
+        userRepository.save(user);
+        return "User Saved"; 
+    }
+
 
     public List<User> getAllUsers(){
         return userRepository.findAllUsers();

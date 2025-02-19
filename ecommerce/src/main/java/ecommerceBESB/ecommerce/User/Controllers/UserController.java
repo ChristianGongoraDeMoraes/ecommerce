@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ecommerceBESB.ecommerce.Errors.Exceptions.UserNotFoundException;
 import ecommerceBESB.ecommerce.User.User;
 import ecommerceBESB.ecommerce.User.Requests.UserLogin;
+import ecommerceBESB.ecommerce.User.Requests.UserRegister;
 import ecommerceBESB.ecommerce.User.Requests.UserSaveRequest;
 import ecommerceBESB.ecommerce.User.Requests.UserUpdateRequest;
 import ecommerceBESB.ecommerce.User.Services.UserService;
@@ -44,7 +45,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(true);
         }
         return ResponseEntity.status(HttpStatus.OK).body(false);
-        
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> getRegister(@Valid @RequestBody UserRegister userReq){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getRegisterUser(userReq));
     }
 
 
