@@ -10,6 +10,7 @@ import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/Api/User")
 @Transactional
+@Validated
 public class UserController {
     private final UserService userService;
     
@@ -48,8 +50,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> getRegister(@Valid @RequestBody UserRegister userReq){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getRegisterUser(userReq));
+    public ResponseEntity<Boolean> getRegister(@Valid @RequestBody UserRegister userReq){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.getRegisterUser(userReq));
     }
 
 

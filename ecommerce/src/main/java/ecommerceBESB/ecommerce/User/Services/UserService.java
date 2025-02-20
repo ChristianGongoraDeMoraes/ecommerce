@@ -34,7 +34,7 @@ public class UserService {
         }
     }
 
-    public String getRegisterUser(UserRegister userReq){
+    public Boolean getRegisterUser(UserRegister userReq){
         User user = User.builder()
                     .name(userReq.name())
                     .email(userReq.email())
@@ -42,7 +42,7 @@ public class UserService {
                     .build();
 
         userRepository.save(user);
-        return "User Saved"; 
+        return true; 
     }
 
 
