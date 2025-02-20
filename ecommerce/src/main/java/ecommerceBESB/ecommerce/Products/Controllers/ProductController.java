@@ -1,9 +1,11 @@
 package ecommerceBESB.ecommerce.Products.Controllers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @RestController
@@ -40,6 +43,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
