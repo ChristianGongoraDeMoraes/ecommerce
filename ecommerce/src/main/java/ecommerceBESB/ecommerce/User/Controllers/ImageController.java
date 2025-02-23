@@ -1,10 +1,13 @@
 package ecommerceBESB.ecommerce.User.Controllers;
 
+import ecommerceBESB.ecommerce.Errors.Exceptions.UserNotFoundException;
 import ecommerceBESB.ecommerce.User.Image;
 import ecommerceBESB.ecommerce.User.Repositories.ImageRepository;
+import ecommerceBESB.ecommerce.User.Repositories.UserRepository;
 import ecommerceBESB.ecommerce.User.ImageUtility;
-
+import ecommerceBESB.ecommerce.User.User;
 import ecommerceBESB.ecommerce.User.Requests.ImageUploadResponse;
+import ecommerceBESB.ecommerce.User.Requests.RequestUserEmail;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -25,14 +31,28 @@ public class ImageController {
     @Autowired
     ImageRepository imageRepository;
 
-    @PostMapping("/upload/image")
-    public ResponseEntity<ImageUploadResponse> uplaodImage(@RequestParam("image") MultipartFile file)
-            throws IOException {
+    @Autowired
+    UserRepository userRepository;
 
+    private RequestUserEmail convertUserEmail(String userEmail) throws JsonProcessingException{
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(userEmail , RequestUserEmail.class);
+    }
+
+    @PostMapping("/upload/image")
+    public ResponseEntity<ImageUploadResponse> uplaodImage(@RequestPart("image") MultipartFile file, @RequestPart("user") String userEmail)
+            throws IOException , UserNotFoundException{
+        
+        RequestUserEmail userReqEmail = convertUserEmail(userEmail);
+        User user = userRepository.findUserByEmail(userReqEmail.getUserEmail()).orElseThrow(() -> new UserNotFoundException("User Not found!"));
+
+                
         imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .image(ecommerceBESB.ecommerce.User.ImageUtility.compressImage(file.getBytes())).build());
+                .image(ImageUtility.compressImage(file.getBytes()))
+                .userImage(user)
+                .build());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ImageUploadResponse("Image uploaded successfully: " +
                         file.getOriginalFilename()));

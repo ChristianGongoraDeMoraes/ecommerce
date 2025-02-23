@@ -49,7 +49,8 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private final Set<Order> orders = new HashSet<>();
 
-    
+    @OneToMany(mappedBy = "userImage")
+    private final Set<Image> image = new HashSet<>();
 
 }
 
