@@ -45,10 +45,11 @@ public class User implements Serializable{
     @Column(unique = true, nullable = false)
     private String email;
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private final Set<Order> orders = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "userImage")
     private final Set<Image> image = new HashSet<>();
 

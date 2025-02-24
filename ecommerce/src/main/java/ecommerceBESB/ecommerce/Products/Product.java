@@ -45,4 +45,8 @@ public class Product implements Serializable{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private final Set<Order> orders = new HashSet<>();
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "productImage", fetch = FetchType.LAZY)
+    private final Set<ImageProd> image = new HashSet<>();
 }
