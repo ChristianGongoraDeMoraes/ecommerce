@@ -68,6 +68,8 @@ public class ImageController {
                 .type(dbImage.get().getType())
                 .image(ImageUtility.decompressImage(dbImage.get().getImage())).build();
     }
+    
+    
 
     @GetMapping("/get/image/{name}")
     public ResponseEntity<byte[]> getImage(@PathVariable String name) throws IOException {
@@ -78,5 +80,18 @@ public class ImageController {
                 .ok()
                 .contentType(MediaType.valueOf(dbImage.get().getType()))
                 .body(ImageUtility.decompressImage(dbImage.get().getImage()));
+    }
+
+    @GetMapping("/get/image/user/{email}")
+    public ResponseEntity<byte[]> getImageByEmail(@PathVariable String email) throws UserNotFoundException {
+
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException("User Not found!"));
+
+        final Image dbImage = imageRepository.findByUserId(user.getId()).orElseThrow(() -> new UserNotFoundException("Image Not found!"));
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(dbImage.getType()))
+                .body(ImageUtility.decompressImage(dbImage.getImage()));
     }
 }
