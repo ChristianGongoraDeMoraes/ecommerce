@@ -19,6 +19,9 @@ import ecommerceBESB.ecommerce.Products.Repositories.ImageProdRepository;
 import ecommerceBESB.ecommerce.Products.Repositories.ProductRepository;
 import ecommerceBESB.ecommerce.Products.Requests.ImageProdUploadResponse;
 import ecommerceBESB.ecommerce.Products.Requests.RequestProductName;
+import ecommerceBESB.ecommerce.User.Image;
+import ecommerceBESB.ecommerce.User.ImageUtility;
+import ecommerceBESB.ecommerce.User.User;
 import ecommerceBESB.ecommerce.User.Requests.RequestUserEmail;
 import jakarta.transaction.Transactional;
 
@@ -81,5 +84,18 @@ public class ImageProdController {
                 .ok()
                 .contentType(MediaType.valueOf(dbImage.get().getType()))
                 .body(ImageProdUtility.decompressImage(dbImage.get().getImage()));
+    }
+
+    @GetMapping("/get/image/product/{name}")
+    public ResponseEntity<byte[]> getImageByProductName(@PathVariable String name) throws ProductNotFoundException {
+
+        Product product = productRepository.findProductByName(name).orElseThrow(() -> new ProductNotFoundException("Product Not found!"));
+
+        final ImageProd dbImage = imageRepository.findImageByProductId(product.getId()).orElseThrow(() -> new ProductNotFoundException("Image Not found!"));
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.valueOf(dbImage.getType()))
+                .body(ImageUtility.decompressImage(dbImage.getImage()));
     }
 }
