@@ -45,7 +45,13 @@ public class ImageController {
         
         RequestUserEmail userReqEmail = convertUserEmail(userEmail);
         User user = userRepository.findUserByEmail(userReqEmail.getUserEmail()).orElseThrow(() -> new UserNotFoundException("User Not found!"));
-
+        
+        //Deleting Posterior image
+        if(imageRepository.findByUserId(user.getId()).isPresent()){
+                //String i = 
+                imageRepository.deleteByUserId(user.getId());
+                //System.out.println(i);
+        }
                 
         imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
