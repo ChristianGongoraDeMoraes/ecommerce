@@ -12,3 +12,15 @@ spring:
             ddl-auto: update
 
         show-sql: true
+
+    mail: 
+        host: sandbox.smtp.mailtrap.io
+        port: 2525
+        username: 15efa3fd7ddd9f
+        password:  f5b2f3aca1d851
+        properties: 
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
