@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import ecommerceBESB.ecommerce.Mail.dtos.EmailDto;
+import ecommerceBESB.ecommerce.User.User;
+import ecommerceBESB.ecommerce.User.Repositories.UserRepository;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +26,9 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public void enviaEmail(EmailDto emailDto) {
        try {
            MimeMessage message = javaMailSender.createMimeMessage();
@@ -32,7 +37,9 @@ public class EmailService {
            helper.setFrom("noreply@gmail.com");
            helper.setSubject("Ecommerce Test");
            helper.setTo(emailDto.email());
-           helper.setText("TEXTO EMAIL");
+            
+           User user = userRepository.findUserByEmail(emailDto.email()).get();
+           helper.setText("Hey "+ user.getName() +",We saw that you forgot your password, so that's it:" + user.getPassword());
 
         /*
            String template  = carregaTemplateEmail();
