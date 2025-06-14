@@ -30,14 +30,16 @@ public class OrderService {
         return orderRepository.findAllOrders();
     }
 
-    public Order getOrderByUserId(UUID id){
-        return orderRepository.findOrderByUserId(id).orElseThrow(() -> new OrderNotFoundException("Order Not found!"));
+    public List<Order> getOrderByUserId(UUID id){
+        return orderRepository.findOrderByUserId(id);
     }
 
     public Order makeNewOrder(OrderSaveRequest orderReq){
         Order order = Order.builder()
             .product(productRepository.findProductById(orderReq.productId()).orElseThrow(() -> new OrderNotFoundException("Order Not found! (Invalid Product!)")))
             .user(userRepository.findUserById(orderReq.userId()).orElseThrow(() -> new OrderNotFoundException("Order Not found! (Invalid User!)")))
+            .produtoId(orderReq.productId().toString())
+            .usuarioId(orderReq.userId().toString())
             .build();
         return orderRepository.save(order);
     }

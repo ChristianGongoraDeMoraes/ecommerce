@@ -30,6 +30,9 @@ public class ProductService {
     public Product getProductByName(String name){
         return productRepository.findProductByName(name).orElseThrow(() -> new ProductNotFoundException("Product Not found!"));
     }
+    public Product getProductById(String id){
+        return productRepository.findProductById(UUID.fromString(id)).orElseThrow(() -> new ProductNotFoundException("Product Not found!"));
+    }
 
     public Product saveProduct(ProductSaveRequest prodReq){
         Product product = Product.builder()

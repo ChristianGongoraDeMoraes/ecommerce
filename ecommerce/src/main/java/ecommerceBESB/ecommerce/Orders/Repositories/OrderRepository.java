@@ -15,5 +15,5 @@ public interface OrderRepository extends JpaRepository<Order, UUID>{
     List<Order> findAllOrders();
 
     @Query(value = "SELECT * FROM Orders WHERE user_id = :id", nativeQuery = true)
-    Optional<Order> findOrderByUserId(UUID id);
+    List<Order> findOrderByUserId(UUID id);
 }

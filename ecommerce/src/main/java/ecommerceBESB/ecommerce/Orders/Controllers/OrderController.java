@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderByUserId(@RequestParam UUID id) {
+    public ResponseEntity<List<Order>> getOrderByUserId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrderByUserId(id));
     }
     

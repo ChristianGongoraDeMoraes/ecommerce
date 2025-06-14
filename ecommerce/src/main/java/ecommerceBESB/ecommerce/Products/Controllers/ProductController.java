@@ -53,6 +53,12 @@ public class ProductController {
     public ResponseEntity<Product> getProductByName(@PathVariable String name) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByName(name));
     }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
+    }
+    
     
 
     @PostMapping
